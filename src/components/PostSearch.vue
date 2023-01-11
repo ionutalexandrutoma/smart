@@ -79,7 +79,7 @@
                 this.err = null
                 this.loading = true
                 const octokit = new Octokit({
-                    auth: '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'
+                    auth: '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'
                 })
 
                 const resultUser = await octokit.request('GET /users/' + this.user, {
