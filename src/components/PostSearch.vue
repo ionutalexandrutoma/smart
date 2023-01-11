@@ -28,16 +28,16 @@
             <div class="col-md-9">
                 <div v-for="gist in data.gists" :key="gist.id">
                     <div v-for="file in gist.files" :key="file.filename">
-                        <div class="row justify-content-center pt-2 pb-2 border-bottom gist" @click="showCode(file.raw_url, gist.id)" :id="gist.id">
-                            <div class="col-md-1">
+                        <div class="row justify-content-center pt-2 pb-2 border-bottom gist" @click="showCode(file.raw_url, gist.id + file.filename)" :id="gist.id + file.filename">
+                            <div class="col-4 col-md-2 col-lg-1">
                                 <img :src="gist.owner.avatar_url" class="rounded-circle mx-auto d-block w-100 p-1"/>
                             </div>
-                            <div class="col-md-9 text-start">
+                            <div class="col-12 col-md-7 col-lg-9 text-center text-md-start">
                                 <span class="text-primary"><b>{{ gist.owner.login }}</b> </span> / <span class="text-primary"><b>{{ file.filename }}</b> </span> <br>
                                 <span class="text-gray"><small> Created at: {{ gist.created_at }} </small></span>
                             </div>
-                            <div class="col-md-2 my-auto">
-                                <div class="rounded p-2">
+                            <div class="col-md-3 col-lg-2 my-auto">
+                                <div class="rounded p-2 lgueB">
                                     <p :class="file.language"> {{ file.language }} </p>
                                 </div>
                             </div>
@@ -91,6 +91,9 @@
                 const userObj = {}
                 const frks = {}
 
+                if(this.user === null)
+                    this.err = "Not found!"
+
                 if(!this.err && resultUser.data.id){
                     userObj.user = resultUser.data
 
@@ -123,7 +126,7 @@
                        
                     //     frks[g.id] = forks
                     // })
-                    // console.log( resultGists.data);
+                    
                     userObj.gists = resultGists.data
                 }
                 else{
@@ -162,8 +165,24 @@
             //     // return null  
             // }
             async showCode(url, el_id){
-                console.log(url, el_id)
+                var div = document.getElementById(el_id)
+
+                const boxes = document.querySelectorAll('.codeSourceCnt')
                 
+                boxes.forEach(box => {
+                    box.remove();
+                });
+
+                await $.get(url,function(text){
+                    if(text.length){   
+                        // div.classList.add('pre-animation')  
+                        div.outerHTML += '<div class="row codeSourceCnt"><div class="col-12 p-3 bg-dark text-white"><div class="codeSource text-start"><pre><code>' + text + '</pre></code></div></div></div>'
+                        // setTimeout(function(){
+                        //     div.classList.remove('pre-animation')
+                        // },100)
+                    }
+                });
+
                 return
             }
         }
