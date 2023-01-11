@@ -86,7 +86,7 @@
                     username: this.user
                 }).catch(e => {
                     this.err = e
-                });
+                })
 
                 const userObj = {}
                 const frks = {}
@@ -101,31 +101,16 @@
                         username: this.user
                     }) 
 
-                    // for( const gist of resultGists.data ){
-                    //     const forks = await this.getForks(gist.id)
-                    //     gist.forksDet = forks
-                    // }
-
                     for( const gist of resultGists.data ){
                         gist.created_at = gist.created_at.replace("T", " ").replace("Z", " ")
                         if(gist.forks_url.length){
-                            // const forks = await this.getForks(gist.forks_url)
                             
                             await $.getJSON(gist.forks_url,function(forks){
                                 if(forks.length)
                                     gist.forksDet = forks
-                            });
-                            // console.log(forks)
-                            // gist.forksDet = forks
+                            })
                         }
                     }
-
-                    // resultGists.data.forEach((g) => {
-                    //     const forks = this.getForks(g.id)
-                    //     resultGists.data.forkeDet = forks
-                       
-                    //     frks[g.id] = forks
-                    // })
                     
                     userObj.gists = resultGists.data
                 }
@@ -133,55 +118,27 @@
                     this.err = "Not found!"
                 }  
                 
-
-                // userObj.gists.forEach((g) => {
-                //     if(g.forks_url.length)
-                //         $.getJSON(g.forks_url,function(forks){
-                //             if(forks.length)
-                //                 forksdet[g.id] = forks
-                //         });
-                // });
-
                 this.frks = frks
                 
-                //                 this.forksdet = forksdet;
                 this.data = userObj
                 this.loading = false
 
                 e.preventDefault()
             },
-            // async getForks(id){
-            //     // const octokit = new Octokit({
-            //     //     auth: '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'
-            //     // })
-
-            //     // const forks = await octokit.request('GET /gists/' + id + '/forks{?per_page,page}', {
-            //     //     gist_id: id
-            //     // })
-
-            //     // if(forks.data.length)
-            //     //     return forks.data
-                   
-            //     // return null  
-            // }
             async showCode(url, el_id){
                 var div = document.getElementById(el_id)
 
                 const boxes = document.querySelectorAll('.codeSourceCnt')
                 
                 boxes.forEach(box => {
-                    box.remove();
-                });
+                    box.remove()
+                })
 
                 await $.get(url,function(text){
                     if(text.length){   
-                        // div.classList.add('pre-animation')  
                         div.outerHTML += '<div class="row codeSourceCnt"><div class="col-12 p-3 bg-dark text-white"><div class="codeSource text-start"><pre><code>' + text + '</pre></code></div></div></div>'
-                        // setTimeout(function(){
-                        //     div.classList.remove('pre-animation')
-                        // },100)
                     }
-                });
+                })
 
                 return
             }
