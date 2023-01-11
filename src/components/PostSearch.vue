@@ -79,7 +79,7 @@
                 this.err = null
                 this.loading = true
                 const octokit = new Octokit({
-                    auth: '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'
+                    auth: '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'
                 })
 
                 const resultUser = await octokit.request('GET /users/' + this.user, {
@@ -119,7 +119,7 @@
                 }  
                 
                 this.frks = frks
-                
+                console.log(userObj);
                 this.data = userObj
                 this.loading = false
 
