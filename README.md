@@ -15,6 +15,12 @@ npm install jquery
 npm install @octokit/request
 ```
 
+## Personal Accces Token
+
+You have to use GitHub personal access token.(https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
+
+Change it on var.env
+
 ### Compiles and hot-reloads for development
 ```
 npm run serve
